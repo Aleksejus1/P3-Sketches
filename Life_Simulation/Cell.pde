@@ -1,12 +1,27 @@
 class Cell{
   float transition;
   CellType type;
+  Cell U,D,L,R;
+  ArrayList<Cell> neighbours;
   Cell(){
     transition = random(0f, 1f);
+    R = U = D = L = null;
   }
   Cell type(CellType type){
     this.type = type;
     return this;
+  }
+  void drawSide(Cell side, float x, float y, float w, float h, float t){
+    if(side!=null){
+      fill(lerpColor(getColor(),side.getColor(),t));
+      rect(x, y, w, h);
+    }
+  }
+  color getColor(){ return lerpColor(type.c1,type.c2,transition); }
+  void update(){
+    if(type==CellType.get(0)){
+      
+    }
   }
 }
 
