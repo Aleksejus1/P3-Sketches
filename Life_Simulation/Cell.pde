@@ -6,6 +6,7 @@ class Cell{
   Cell(){
     transition = random(0f, 1f);
     R = U = D = L = null;
+    neighbours = new ArrayList<Cell>();
   }
   Cell type(CellType type){
     this.type = type;
@@ -20,7 +21,22 @@ class Cell{
   color getColor(){ return lerpColor(type.c1,type.c2,transition); }
   void update(){
     if(type==CellType.get(0)){
-      
+      int count = floor(random(1, neighbours.size()));
+      ArrayList<Cell> list = new ArrayList<Cell>();
+      while(list.size()<count){
+        Cell cell = neighbours.get(floor(random(0,neighbours.size()-1)));
+        boolean exists = false;
+        for(Cell check : list) if(check==cell){ exists = true; break; }
+        if(!exists) list.add(cell);
+      }
+      for(Cell cell : list){
+        Cell bigger,smaller;
+        if(cell.transition>transition){ bigger = cell; smaller = this; }
+        else{ bigger = this; smaller = cell; }
+        float diff = bigger.transition - smaller.transition;
+        bigger.transition -= diff*0.05;
+        smaller.transition += diff*0.15;
+      }
     }
   }
 }

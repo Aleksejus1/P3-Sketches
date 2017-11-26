@@ -18,10 +18,22 @@ class Map{
       ArrayList<Cell> line = map.get(y);
       for(int x = 0; x < w; x++){
         Cell cell = line.get(x);
-        if(y>0) cell.U = map.get(y-1).get(x);
-        if(y<h-1) cell.D = map.get(y+1).get(x);
-        if(x>0) cell.L = line.get(x-1);
-        if(x<w-1) cell.R = line.get(x+1);
+        if(y>0) {
+          cell.U = map.get(y-1).get(x);
+          cell.neighbours.add(cell.U);
+        }
+        if(y<h-1){
+          cell.D = map.get(y+1).get(x);
+          cell.neighbours.add(cell.D);
+        }
+        if(x>0){
+          cell.L = line.get(x-1);
+          cell.neighbours.add(cell.L);
+        }
+        if(x<w-1){
+          cell.R = line.get(x+1);
+          cell.neighbours.add(cell.R);
+        }
       }
     }
     return this;
@@ -29,17 +41,15 @@ class Map{
   void update(){
     int count = floor(random(1, sqrt(totalSize)));
     ArrayList<Cell> list = new ArrayList<Cell>();
-    for(int i = 0; i < count; i++){
-      while(true){
-        int y = floor(random(0, map.size()));
-        int x = floor(random(0, map.get(y).size()));
-        Cell ran = map.get(y).get(x);
-        boolean exists = false;
-        for(Cell check : list) if(check==ran) {exists=true; break;}
-        if(!exists){
-          list.add(ran);
-          break;
-        }
+    while(list.size()<count){
+      int y = floor(random(0, map.size()));
+      int x = floor(random(0, map.get(y).size()));
+      Cell ran = map.get(y).get(x);
+      boolean exists = false;
+      for(Cell check : list) if(check==ran) {exists=true; break;}
+      if(!exists){
+        list.add(ran);
+        break;
       }
     }
     for(Cell cell : list) cell.update();

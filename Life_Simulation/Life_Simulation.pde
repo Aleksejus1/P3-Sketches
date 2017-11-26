@@ -1,8 +1,9 @@
 Map map;
 void setup(){
   //Window
-  size(1680,1050);
+  size(1100,650);
   frameRate(60);
+  randomSeed((((day()*24+hour())*60+minute())*60+second()+millis()));
   //Map
   cellSetup();
   map = new Map().generate(10,10);
