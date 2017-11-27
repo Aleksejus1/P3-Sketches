@@ -56,7 +56,7 @@ class Map{
   }
   void draw(float xOffset, float yOffset){
     noStroke();
-    textSize(30);
+    //Box
     for(int y = 0; y < map.size(); y++){
       ArrayList<Cell> line = map.get(y);
       for(int x = 0; x < line.size(); x++){
@@ -69,6 +69,7 @@ class Map{
         //text(str(cell.transition).substring(1, 5),xp+cellSize/6,yp+cellSize/3,xp+cellSize/4*3,yp+cellSize/4*3);
       }
     }
+    //Smoothing
     for(int y = 0; y < map.size(); y++){
       ArrayList<Cell> line = map.get(y);
       for(int x = 0; x < line.size(); x++){
@@ -82,6 +83,26 @@ class Map{
           cell.drawSide(cell.L, xp+cellSize*i/d, yp+cellSize*i/d, cellSize/d, cellSize-cellSize*2*i/d, t);
           cell.drawSide(cell.U, xp+cellSize*i/d, yp+cellSize*i/d, cellSize-cellSize*2*i/d, cellSize/d, t);
         }
+      }
+    }
+    //Text Debug
+    fill(0);
+    float tsize = 30;
+    textSize(tsize);
+    for(int y = 0; y < map.size(); y++){
+      ArrayList<Cell> line = map.get(y);
+      for(int x = 0; x < line.size(); x++){
+        Cell cell = line.get(x);
+        String str = str(cell.transition);
+        str = str.substring(1, min(5, str.length()));
+        float dim = cellSize*5/12;
+        float minSizeW = tsize/textWidth(str)*dim;
+        float minSizeH = tsize/( textDescent()+textAscent())*dim;
+        tsize = min(minSizeW, minSizeH);
+        textSize(tsize);
+        float xp = (x+1)*cellOffset+xOffset-cellSize;
+        float yp = (y+1)*cellOffset+yOffset-cellSize;
+        text(str,xp+cellSize/6,yp+cellSize/3+dim-textDescent());
       }
     }
   }

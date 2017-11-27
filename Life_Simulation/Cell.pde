@@ -18,25 +18,19 @@ class Cell{
       rect(x, y, w, h);
     }
   }
+  float addTransition(float ammount){
+    float absorbing = min(1-transition, ammount);
+    transition+=absorbing;
+    return ammount-absorbing;
+  }
   color getColor(){ return lerpColor(type.c1,type.c2,transition); }
   void update(){
     if(type==CellType.get(0)){
-      int count = floor(random(1, neighbours.size()));
-      ArrayList<Cell> list = new ArrayList<Cell>();
-      while(list.size()<count){
-        Cell cell = neighbours.get(floor(random(0,neighbours.size()-1)));
-        boolean exists = false;
-        for(Cell check : list) if(check==cell){ exists = true; break; }
-        if(!exists) list.add(cell);
-      }
-      for(Cell cell : list){
-        Cell bigger,smaller;
-        if(cell.transition>transition){ bigger = cell; smaller = this; }
-        else{ bigger = this; smaller = cell; }
-        float diff = bigger.transition - smaller.transition;
-        bigger.transition -= diff*0.05;
-        smaller.transition += diff*0.15;
-      }
+      float resources = addTransition(transition/20)+transition/100;
+      float total = 0;
+      for(Cell cell : neighbours) total+=1-cell.transition;
+      if(total<resources) total=resources;
+      for(Cell cell : neighbours) cell.transition+= (1-cell.transition)/total*resources;
     }
   }
 }
