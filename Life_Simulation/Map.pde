@@ -9,7 +9,10 @@ class Map{
     for(int y = 0; y < h; y++){
       ArrayList<Cell> line = new ArrayList<Cell>();
       for(int x = 0; x < w; x++) {
-        line.add(new Cell().type(CellType.get(0)));
+        String type = "Grass";
+        if(random(1,3)>2) type = "Stone";
+        if(type=="Stone") println("stone");
+        line.add(new Cell().type(ct(type)));
         totalSize++;
       }
       map.add(line);
