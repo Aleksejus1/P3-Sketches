@@ -6,7 +6,7 @@ void setup(){
   randomSeed((((day()*24+hour())*60+minute())*60+second()+millis()));
   //Map
   cellSetup();
-  map = new Map().generate(10,10);
+  map = new Map().generate(50,50);
   //Begin drawing
   nextFrame();
 }
